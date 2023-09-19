@@ -28,6 +28,8 @@ let counterScore = 0;
 
 let extractedNumbers = [];
 
+
+
 const container = document.querySelector('.container-custom')
 
 const diffSelector = document.querySelector('.diff-selector')
@@ -45,49 +47,67 @@ startBtn.addEventListener('click',function(){
   //creo vari percorsi per ogni difficoltà (ogni IF prima di tutto resetta, poi fa partire un ciclo che ripete stampSquare tot volte)
 
   if(difficulty === 'Select difficulty mode:'){
-    reset(container)
+    reset()
     alert('SELEZIONA UNA DIFFICOLTA PER PROCEDERE!')
     startMessage();
 
   }else if(difficulty == 1){
     
-    reset(container);
+    reset(); //adesso reset totale, svuota container, arrays e counter punteggio
 
-    bombs = [] //svuoto la lista bombe
-
-    //carico lista bombe
+    //carico lista con 16 bombe
     for(let i = 0; i < 16; i++){
       
       let bomb = getUniqueRandomNumber(1, 100);
       bombs.push(bomb);
-    
     }
+  
     for(let i = 1; i <= 100; i++){
-    
       stampSquare('easy', i);
-    
     }
 
+
   }else if(difficulty == 2){
-    reset(container);
+
+    reset();
+    
+    for(let i = 0; i < 16; i++){
+      
+      let bomb = getUniqueRandomNumber(1, 81);
+      bombs.push(bomb);
+    }
+    
     for(let i = 1; i <= 81; i++){
    
       stampSquare('medium', i);
     }
   }else{
-    reset(container);
+
+    reset();
+    
+    for(let i = 0; i < 16; i++){
+      let bomb = getUniqueRandomNumber(1, 49);
+      bombs.push(bomb);
+    }
+
     for(let i = 1; i <= 49; i++){
       stampSquare('hard', i);
     }   
   }
+  
 })
 
 //FUNZIONI //////////////////////////////////////////////////
 
-//funzioncina per resettare l'innerhtml di un elemento
-function reset(whatToReset){
-  whatToReset.innerHTML = '';
+//funzioncina per resettare il container e gli array allo stato di partenza
+function reset(){
+  container.innerHTML = '';
+  bombs = [];
+  extractedNumbers = [];
+  counterScore = 0;
+  
 }
+
 
 
 //funzione per stampare i quadrati
@@ -96,7 +116,7 @@ function reset(whatToReset){
  * @param {string} difficultyLevel // 'easy','medium' o 'hard' come stringhe; Determina la GRANDEZZA del quadrato stampato
  * @param {number} squareVisualizedNumber  //Numero che appare come testo all'interno del quadrato(nel ciclo FOR sarà la let utilizzata es: 'i')
  */
-function stampSquare(difficultyLevel, squareVisualizedNumber){
+function stampSquare(difficultyLevel, squareNumber){
   let square = document.createElement('div');
   square.classList.add('square')
   
@@ -108,18 +128,46 @@ function stampSquare(difficultyLevel, squareVisualizedNumber){
     square.classList.add('hard')
   }
 
+  
+  square.innerHTML += `<span> ${squareNumber}</span>
+  `
+
+  //qui controllo se il quadrato è una bomba 
+  if( bombs.includes(squareNumber)){
+    square.classList.add('bomb')
+  }
+
   square.addEventListener('click', function(){
+
+    if(bombs.includes(squareNumber)){
+
+      endgame();
+        
+        square.classList.add('activeBomb')
+      // DA RISOLVERE QUI PER SELEZIONARE TUTTE LE BOMBEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+  
+    }else{
+    }
+    
+    removeEventListener('click', respondClick)
+    counterScore++;
     this.classList.toggle('activeSquare') 
+    console.log('counter score ----' + counterScore)
+    removeEventListener('click', this)
+
+
   }) //NOTA BENE: qui ci dovrai mettere poi dentro una funzione che faccia altre cose tipo calcolare se è una bombaaa, se è una bomba accendere tutte le altre bombe ecc ecc (il numero della cella sarà assegnato comunque alla creazione del quadrato)
 
-  square.innerHTML += `<span> ${squareVisualizedNumber}</span>
-  `
   container.append(square);
 }
 
 function startMessage(){
   container.innerHTML += `<h1 id="start-playing">SELEZIONA UNA DIFFICOLTA E COMINCIA A GIOCARE!</h1>`
 }
+
+
+
+
 
 
 /**
@@ -156,6 +204,35 @@ function getUniqueRandomNumber(min, max ){
   return randomNumber;
 }
 
+
+
+function endgame(){
+  const mask = document.createElement('div');
+  mask.innerHTML += `<h1>PARTITA TERMINATA! Il tuo score è di: ${counterScore} Su un massimo di: </h1>`
+  mask.classList.add('mask');
+  container.prepend(mask);
+  
+}
+
+function respondClick(){
+  
+  if(bombs.includes(squareNumber)){
+
+    endgame();
+      
+      square.classList.add('activeBomb')
+    // DA RISOLVERE QUI PER SELEZIONARE TUTTE LE BOMBEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+
+  }else{
+  }
+  
+  removeEventListener('click', respondClick)
+  counterScore++;
+  this.classList.toggle('activeSquare') 
+  console.log('counter score ----' + counterScore)
+  removeEventListener('click', this)
+}
+
 /* //test
 for(let i = 0; i < 16; i++){
   const randomNumero = getUniqueRandomNumber(1, 100);
@@ -163,3 +240,4 @@ for(let i = 0; i < 16; i++){
 }
 
 console.log('bombs array----->' + bombs) */
+
