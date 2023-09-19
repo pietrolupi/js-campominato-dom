@@ -69,7 +69,7 @@ body{
   aspect-ratio: 1/1;
   border: 2px solid white;
   cursor: pointer;
-  background-color: #404eed;
+  background-color: rgba(0, 0, 0, 0.436);
 }
 
 .easy.square{
