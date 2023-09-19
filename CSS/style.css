@@ -30,7 +30,7 @@ body{
   height: 800px;
   width: 800px;
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.658);
+  background-color: rgba(0, 0, 0, 0.8);
   top: 0;
   left: 0;
   display: flex;
@@ -50,6 +50,7 @@ body{
   aspect-ratio: 1/1;
   border: 2px solid white;
   cursor: pointer;
+  background-color: #404eed;
 }
 
 .easy.square{
@@ -69,14 +70,14 @@ body{
 
 .activeSquare{
   color: white;
-  background-color: #404eed;
+  background-color: green;
 }
 
 .square.bomb{
-  background-color: black;
+  
 }
 
-.square.bomb.activeBomb{
+.square.bomb.explode{
   background-color: red;
 }
 

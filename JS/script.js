@@ -28,7 +28,7 @@ let counterScore = 0;
 
 let extractedNumbers = [];
 
-
+let bombsToExplode = []
 
 const container = document.querySelector('.container-custom')
 
@@ -51,23 +51,22 @@ startBtn.addEventListener('click',function(){
     alert('SELEZIONA UNA DIFFICOLTA PER PROCEDERE!')
     startMessage();
 
-  }else if(difficulty == 1){
+  }else if(difficulty == 100){
     
     reset(); //adesso reset totale, svuota container, arrays e counter punteggio
 
     //carico lista con 16 bombe
-    for(let i = 0; i < 16; i++){
-      
+    for(let i = 0; i < 16; i++){ 
       let bomb = getUniqueRandomNumber(1, 100);
       bombs.push(bomb);
     }
   
     for(let i = 1; i <= 100; i++){
-      stampSquare('easy', i);
+      stampSquare(i);
     }
 
 
-  }else if(difficulty == 2){
+  }else if(difficulty == 81){
 
     reset();
     
@@ -79,7 +78,7 @@ startBtn.addEventListener('click',function(){
     
     for(let i = 1; i <= 81; i++){
    
-      stampSquare('medium', i);
+      stampSquare(i);
     }
   }else{
 
@@ -91,7 +90,7 @@ startBtn.addEventListener('click',function(){
     }
 
     for(let i = 1; i <= 49; i++){
-      stampSquare('hard', i);
+      stampSquare(i);
     }   
   }
   
@@ -105,70 +104,43 @@ function reset(){
   bombs = [];
   extractedNumbers = [];
   counterScore = 0;
-  
 }
-
-
 
 //funzione per stampare i quadrati
 /**
- * 
- * @param {string} difficultyLevel // 'easy','medium' o 'hard' come stringhe; Determina la GRANDEZZA del quadrato stampato
- * @param {number} squareVisualizedNumber  //Numero che appare come testo all'interno del quadrato(nel ciclo FOR sarà la let utilizzata es: 'i')
+ * @param {number} squareNumber  //Numero che appare come testo all'interno del quadrato(nel ciclo FOR sarà la let utilizzata es: 'i')
  */
-function stampSquare(difficultyLevel, squareNumber){
+function stampSquare(squareNumber){
   let square = document.createElement('div');
   square.classList.add('square')
   
-  if(difficultyLevel === 'easy'){
+  square._squareID = squareNumber; //lo richiamerò con this._squareID all'interno della function respondClick!!!!!!
+  
+  if(difficulty == 100){
     square.classList.add('easy')
-  }else if(difficultyLevel === 'medium'){
+  }else if(difficulty == 81){
     square.classList.add('medium')
   }else{
     square.classList.add('hard')
   }
 
-  
-  square.innerHTML += `<span> ${squareNumber}</span>
-  `
-
-  //qui controllo se il quadrato è una bomba 
+  //qui controllo se il quadrato è una bomba e nel caso lo sia gli aggiungo la classe "bomb"
   if( bombs.includes(squareNumber)){
     square.classList.add('bomb')
   }
 
-  square.addEventListener('click', function(){
-
-    if(bombs.includes(squareNumber)){
-
-      endgame();
-        
-        square.classList.add('activeBomb')
-      // DA RISOLVERE QUI PER SELEZIONARE TUTTE LE BOMBEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-  
-    }else{
-    }
-    
-    removeEventListener('click', respondClick)
-    counterScore++;
-    this.classList.toggle('activeSquare') 
-    console.log('counter score ----' + counterScore)
-    removeEventListener('click', this)
+  square.addEventListener('click', respondClick); //gli aggiungo il click con tutti gli eventi(compreso il rimuovere il click)
 
 
-  }) //NOTA BENE: qui ci dovrai mettere poi dentro una funzione che faccia altre cose tipo calcolare se è una bombaaa, se è una bomba accendere tutte le altre bombe ecc ecc (il numero della cella sarà assegnato comunque alla creazione del quadrato)
-
+  //inserisco il quadrato in pagina
   container.append(square);
 }
+
+
 
 function startMessage(){
   container.innerHTML += `<h1 id="start-playing">SELEZIONA UNA DIFFICOLTA E COMINCIA A GIOCARE!</h1>`
 }
-
-
-
-
-
 
 /**
  * funzione per ottenere numero random
@@ -207,37 +179,56 @@ function getUniqueRandomNumber(min, max ){
 
 
 function endgame(){
+
   const mask = document.createElement('div');
-  mask.innerHTML += `<h1>PARTITA TERMINATA! Il tuo score è di: ${counterScore} Su un massimo di: </h1>`
+  const possibleScore = difficulty - 16;
   mask.classList.add('mask');
   container.prepend(mask);
+  if(counterScore === difficulty - 17){
+    mask.innerHTML += `<h1>BRAVISSIMO! HAI VINTOOOO! Il tuo score è di: ${counterScore + 1} Su un massimo di:${possibleScore} </h1>`
+  }else{
+    mask.innerHTML += `<h1>HAI PERSO! Il tuo score è di: ${counterScore} Su un massimo di:${possibleScore} </h1>`
+  }
   
 }
 
 function respondClick(){
+  /* const number = parseInt(this.textContent) */
   
-  if(bombs.includes(squareNumber)){
+  if(bombs.includes(this._squareID)){
+
+    const squaresToExplode = document.getElementsByClassName('square');
+    
+    for(let i = 0; i < difficulty; i++){
+      const square = squaresToExplode[i]; 
+      
+      square.classList.add('explode')
+    }
+    
+    endgame();
+   
+  }else if(counterScore === difficulty - 17){
+    
+    this.classList.toggle('activeSquare') 
 
     endgame();
-      
-      square.classList.add('activeBomb')
-    // DA RISOLVERE QUI PER SELEZIONARE TUTTE LE BOMBEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 
   }else{
+    counterScore++;
+
+    this.classList.add('activeSquare') 
+   
+    this.removeEventListener('click', respondClick)
   }
   
-  removeEventListener('click', respondClick)
-  counterScore++;
-  this.classList.toggle('activeSquare') 
-  console.log('counter score ----' + counterScore)
-  removeEventListener('click', this)
 }
 
-/* //test
-for(let i = 0; i < 16; i++){
-  const randomNumero = getUniqueRandomNumber(1, 100);
-  console.log(randomNumero)
+function explode(){
+  for(let i = 0; i < difficulty; i++){
+    document.getElementById('49').classList.add('provabomb')
+    if(bombs.includes(this._squareID)){
+      console.log(this._squareID)
+    }
+    
+  }
 }
-
-console.log('bombs array----->' + bombs) */
-
