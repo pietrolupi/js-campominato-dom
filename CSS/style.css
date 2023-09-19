@@ -1,0 +1,73 @@
+
+
+.main-wrapper{
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  background-color:#23272a;
+  flex-direction: column;
+}
+
+body{
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  
+}
+
+.container-custom{
+  height: 800px;
+  width: 800px;
+  display: flex;  
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  background-color: #a50a55c6;
+  text-align: center;
+  border: 5px solid white;
+}
+
+.square{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgba(255, 255, 255, 0);
+  font-size: 25px;
+  aspect-ratio: 1/1;
+  border: 2px solid white;
+  cursor: pointer;
+}
+
+.easy.square{
+  width: calc(100% / 10);
+  height: calc(100% / 10);
+}
+
+.medium.square{
+  width: calc(100% / 9);
+  height: calc(100% / 9);
+}
+
+.hard.square{
+  width: calc(100% / 7);
+  height: calc(100% / 7);
+}
+
+.activeSquare{
+  color: white;
+  background-color: #404eed;
+}
+
+.square span{
+  display: none;
+}
+
+.square.activeSquare span{
+  display: block;
+}
+
+#start-playing{
+  color: white;
+  margin: 0 50px;
+  font-size: 70px;
+  font-weight: 900;
+}
