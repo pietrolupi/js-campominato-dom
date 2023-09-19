@@ -1,29 +1,6 @@
-/* 
-*1. creo un arrayBombe vuoto 
 
-*2 creo un counter punteggio = 0;
-
-*3 al click inserisco nell'array 16 numeri UNIVOCI generati randomicamente nel range di numeri della difficoltà (1-100), (1-81), (1-49);
-
-*4 VADO A MODIFICARE la funzione stampSquare creata in precendeza: IF numero del quadrato corrisponde a un numero presente nell'array bombe : il quadrato è una bomba.
-
-* aggiungo ai quadrati bomba identificati sopra la classe: BOMB.
-
-* metto una condizione IF : al click, se il counter punteggio è uguale ai quadrati totali meno il num di bombe: faccio partire FUNCTION ENDGAME.
-
-* al click di un quadrato IF il quadrato è bomb succede una cosa, altrimenti comportamento clicked standard (e counter punteggio ++)
-
-* al click di un quadrato bomb invece la cella diventa rossa e faccio partire una FUNCTION ENDGAME.
-
-
-* FUNCION ENDGAME: offusco tutto il quadrante rendendo visibile un layer nero trasparente che di base avrebbe d-none. Poi attivo tutte le bombe. Tolgo il cursor pointer. Rimuovo la possibilità di cliccare sulle celle (removeEventListener);
-
-*faccio comparire il MESSAGGIO FINALE: hai fatto (counter punteggio) punti, su (totale quadrati meno numero bombe) */
-
-
-//1.
 let bombs = [];
-//2.
+
 let counterScore = 0;
 
 let extractedNumbers = [];
@@ -36,7 +13,7 @@ const diffSelector = document.querySelector('.diff-selector')
 let difficulty;
 const startBtn = document.querySelector('.start-btn');
 
-reset(container);
+
 startMessage();
 
 startBtn.addEventListener('click',function(){
@@ -112,6 +89,7 @@ function reset(){
  */
 function stampSquare(squareNumber){
   let square = document.createElement('div');
+  
   square.classList.add('square')
   
   square._squareID = squareNumber; //lo richiamerò con this._squareID all'interno della function respondClick!!!!!!
@@ -127,6 +105,8 @@ function stampSquare(squareNumber){
   //qui controllo se il quadrato è una bomba e nel caso lo sia gli aggiungo la classe "bomb"
   if( bombs.includes(squareNumber)){
     square.classList.add('bomb')
+  }else{
+    square.innerHTML = '<i class="fa-solid fa-flag"></i>'
   }
 
   square.addEventListener('click', respondClick); //gli aggiungo il click con tutti gli eventi(compreso il rimuovere il click)
@@ -139,7 +119,7 @@ function stampSquare(squareNumber){
 
 
 function startMessage(){
-  container.innerHTML += `<h1 id="start-playing">SELEZIONA UNA DIFFICOLTA E COMINCIA A GIOCARE!</h1>`
+  document.querySelector('.mask2').innerHTML += `<h1 id="start-playing">SELEZIONA UNA DIFFICOLTA E COMINCIA A GIOCARE!</h1>`
 }
 
 /**
@@ -193,16 +173,18 @@ function endgame(){
 }
 
 function respondClick(){
-  /* const number = parseInt(this.textContent) */
   
   if(bombs.includes(this._squareID)){
 
-    const squaresToExplode = document.getElementsByClassName('square');
+    const squaresToExplode = document.getElementsByClassName('bomb');
+    //creo un array con tutte le bombe
     
-    for(let i = 0; i < difficulty; i++){
-      const square = squaresToExplode[i]; 
-      
-      square.classList.add('explode')
+    for(let i = 0; i < 16; i++){//ciclo l'array e ad ogni bomba aggiungo la classe "explode" (su CSS .bomb.explode si attiva)
+    
+      const squareX = squaresToExplode[i]; 
+  
+      squareX.classList.add('explode')
+      squareX.innerHTML = '<i class="fa-solid fa-bomb"></i>'
     }
     
     endgame();
@@ -223,12 +205,4 @@ function respondClick(){
   
 }
 
-function explode(){
-  for(let i = 0; i < difficulty; i++){
-    document.getElementById('49').classList.add('provabomb')
-    if(bombs.includes(this._squareID)){
-      console.log(this._squareID)
-    }
-    
-  }
-}
+

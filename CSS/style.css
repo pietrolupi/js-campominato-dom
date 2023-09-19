@@ -4,7 +4,7 @@
   height: 100vh;
   display: flex;
   align-items: center;
-  background-color:#23272a;
+  background-image: url('../img/minefield.jpg');
   flex-direction: column;
 }
 
@@ -21,8 +21,11 @@ body{
   align-items: center;
   flex-wrap: wrap;
   position: relative;
-  background-color: #a50a55c6;
+  background-image: url('/img/jinx.webp');
+  background-position: center;
+  border-radius: 50px;
   text-align: center;
+  
   
 }
 
@@ -39,6 +42,22 @@ body{
   color: white;
   padding: 0 50px;
   font-weight: 900;
+}
+
+.mask2{
+  height: 800px;
+  width: 800px;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.6);
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 0 50px;
+  font-weight: 900;
+  border-radius: 50px;
 }
 
 .square{
@@ -79,6 +98,8 @@ body{
 
 .square.bomb.explode{
   background-color: red;
+  font-size: 40px;
+  color: white;
 }
 
 .square span{
