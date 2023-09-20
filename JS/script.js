@@ -106,7 +106,7 @@ function stampSquare(squareNumber){
   if( bombs.includes(squareNumber)){
     square.classList.add('bomb')
   }else{
-    square.innerHTML = '<i class="fa-solid fa-flag"></i>'
+    square.innerHTML = '0'
   }
 
   square.addEventListener('click', respondClick); //gli aggiungo il click con tutti gli eventi(compreso il rimuovere il click)
@@ -199,10 +199,89 @@ function respondClick(){
     counterScore++;
 
     this.classList.add('activeSquare') 
-   
+    
     this.removeEventListener('click', respondClick)
-  }
+
+    
+   //controllo iniziale per evitare di contare i "quadrati che vanno a capo nella riga successiva" come limitrofi
+    if(difficulty % this._squareID === 0){ //RIVEDERE NON FUNZIONAAA e RIFAI DUE CONTROLLI, che cosi non consideri il viceversa ( se clicchi un quadrato a inizio riga e subito PRIMA hai una bomba)
+      
+      console.log('MULTIPLOOO')
+      if(((bombs.includes(this._squareID - 1) || (bombs.includes(this._squareID + 1)))) && //1 orizzontale e 2 verticali
+      (bombs.includes(this._squareID -  Math.sqrt(difficulty)) && (bombs.includes(this._squareID +  Math.sqrt(difficulty))))){
+        this.innerHTML = '3';
+      }else if(((bombs.includes(this._squareID - 1) || (bombs.includes(this._squareID + 1)))) && //1 orizzontale e 1 verticale
+      (bombs.includes(this._squareID -  Math.sqrt(difficulty)) || (bombs.includes(this._squareID +  Math.sqrt(difficulty))))){
+        this.innerHTML = '2';
+      }
+      else if(bombs.includes(this._squareID - 1) ||(bombs.includes(this._squareID + 1))){ //1 orizzontale
+        
+        this.innerHTML = '1';
+  
+      }else if(bombs.includes(this._squareID -  Math.sqrt(difficulty)) && (bombs.includes(this._squareID +  Math.sqrt(difficulty)))){
+         //2 verticali
+        this.innerHTML = '2';
+      }else if(bombs.includes(this._squareID -  Math.sqrt(difficulty)) || (bombs.includes(this._squareID +  Math.sqrt(difficulty)))){ //1 verticale
+        this.innerHTML = '1';
+      }
+    }
+
+
+
+
+    else{
+
+      console.log('NON MULTIPLO' + this._squareID)
+      
+      if(((bombs.includes(this._squareID - 1) && (bombs.includes(this._squareID + 1))))  && //2 orizzontali e 2 verticali
+      (bombs.includes(this._squareID -  Math.sqrt(difficulty)) && (bombs.includes(this._squareID +  Math.sqrt(difficulty)))))
+      {
+        this.innerHTML = '4';
+      }else if(((bombs.includes(this._squareID - 1) && (bombs.includes(this._squareID + 1))))  && //2 orizzontali e 1 verticali
+      (bombs.includes(this._squareID -  Math.sqrt(difficulty)) || (bombs.includes(this._squareID +  Math.sqrt(difficulty))))){
+        this.innerHTML = '3'
+      }
+      
+      else
+      
+      if(((bombs.includes(this._squareID - 1) || (bombs.includes(this._squareID + 1)))) && //1 orizzontale e 2 verticali
+      (bombs.includes(this._squareID -  Math.sqrt(difficulty)) && (bombs.includes(this._squareID +  Math.sqrt(difficulty))))){
+        this.innerHTML = '3';
+      }else if(((bombs.includes(this._squareID - 1) || (bombs.includes(this._squareID + 1)))) && //1 orizzontale e 1 verticale
+      (bombs.includes(this._squareID -  Math.sqrt(difficulty)) || (bombs.includes(this._squareID +  Math.sqrt(difficulty))))){
+        this.innerHTML = '2';
+      }
+      else
+      
+      if( bombs.includes(this._squareID - 1) && (bombs.includes(this._squareID + 1)) ){ //2 orizzontali
+        this.innerHTML = '2';
+      }else if(bombs.includes(this._squareID - 1) ||(bombs.includes(this._squareID + 1))){ //1 orizzontale
+        
+        this.innerHTML = '1';
+  
+      }else if(bombs.includes(this._squareID -  Math.sqrt(difficulty)) && (bombs.includes(this._squareID +  Math.sqrt(difficulty)))){
+         //2 verticali
+        this.innerHTML = '2';
+      }else if(bombs.includes(this._squareID -  Math.sqrt(difficulty)) || (bombs.includes(this._squareID +  Math.sqrt(difficulty)))){ //1 verticale
+        this.innerHTML = '1';
+      }
+ 
+    }
+      
+
+    }
+
+
+
+
   
 }
+  ////////PROTOTIPO CONTROLLO PER BOMBE IN DIAGONALE (potresti fare IF annidati magari)
 
-
+    /*  else if(bombs.includes(this._squareID -  (Math.sqrt(difficulty)) - 1) && (bombs.includes(this._squareID +  (Math.sqrt(difficulty))+1))){ //2 diagonale
+        this.innerHTML = '2';
+        console.log('2 DIAGONALI')
+      }else if(bombs.includes(this._squareID -  (Math.sqrt(difficulty)) - 1) || (bombs.includes(this._squareID +  (Math.sqrt(difficulty))+1))){ //1 diagonale
+        this.innerHTML = '1';
+        console.log('1 DIAGONALI')
+      } */

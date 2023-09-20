@@ -14,8 +14,8 @@ body{
 }
 
 .container-custom{
-  height: 800px;
-  width: 800px;
+  height: 600px;
+  width: 600px;
   display: flex;  
   justify-content: center;
   align-items: center;
@@ -30,8 +30,8 @@ body{
 }
 
 .mask{
-  height: 800px;
-  width: 800px;
+  height: 600px;
+  width: 600px;
   position: absolute;
   background-color: rgba(0, 0, 0, 0.8);
   top: 0;
@@ -45,8 +45,8 @@ body{
 }
 
 .mask2{
-  height: 800px;
-  width: 800px;
+  height: 600px;
+  width: 600px;
   position: absolute;
   background-color: rgba(0, 0, 0, 0.6);
   top: 0;
@@ -93,7 +93,7 @@ body{
 }
 
 .square.bomb{
-  
+  background-color: red;
 }
 
 .square.bomb.explode{
