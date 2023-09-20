@@ -204,8 +204,8 @@ function respondClick(){
 
     
    //controllo iniziale per evitare di contare i "quadrati che vanno a capo nella riga successiva" come limitrofi
-    if(difficulty % this._squareID === 0){ //RIVEDERE NON FUNZIONAAA e RIFAI DUE CONTROLLI, che cosi non consideri il viceversa ( se clicchi un quadrato a inizio riga e subito PRIMA hai una bomba)
-      
+    if(difficulty % this._squareID === 0){ 
+      console.log(this._squareID)
       console.log('MULTIPLOOO')
       if(((bombs.includes(this._squareID - 1) || (bombs.includes(this._squareID + 1)))) && //1 orizzontale e 2 verticali
       (bombs.includes(this._squareID -  Math.sqrt(difficulty)) && (bombs.includes(this._squareID +  Math.sqrt(difficulty))))){
@@ -214,7 +214,7 @@ function respondClick(){
       (bombs.includes(this._squareID -  Math.sqrt(difficulty)) || (bombs.includes(this._squareID +  Math.sqrt(difficulty))))){
         this.innerHTML = '2';
       }
-      else if(bombs.includes(this._squareID - 1) ||(bombs.includes(this._squareID + 1))){ //1 orizzontale
+      else if(bombs.includes(this._squareID - 1) ){ //1 orizzontale
         
         this.innerHTML = '1';
   
@@ -224,8 +224,32 @@ function respondClick(){
       }else if(bombs.includes(this._squareID -  Math.sqrt(difficulty)) || (bombs.includes(this._squareID +  Math.sqrt(difficulty)))){ //1 verticale
         this.innerHTML = '1';
       }
-    }
 
+
+
+    }else if(difficulty % (this._squareID - 1) === 0){  //controllo iniziale per eveitare di contare i "quadrati nella posizione precedente in un altra riga" 
+      console.log('QUADRATINO-1 è MULTIPLOOO')
+      console.log(this._squareID)
+      if(((bombs.includes(this._squareID + 1))) && //1 orizzontale e 2 verticali
+      (bombs.includes(this._squareID -  Math.sqrt(difficulty)) && (bombs.includes(this._squareID +  Math.sqrt(difficulty))))){
+        this.innerHTML = '3';
+      }else if(( (bombs.includes(this._squareID + 1))) && //1 orizzontale e 1 verticale
+      (bombs.includes(this._squareID -  Math.sqrt(difficulty)) || (bombs.includes(this._squareID +  Math.sqrt(difficulty))))){
+        this.innerHTML = '2';
+      }
+      else if(bombs.includes(this._squareID + 1) ){ //1 orizzontale
+        
+        this.innerHTML = '1';
+  
+      }else if(bombs.includes(this._squareID -  Math.sqrt(difficulty)) && (bombs.includes(this._squareID +  Math.sqrt(difficulty)))){
+         //2 verticali
+        this.innerHTML = '2';
+      }else if(bombs.includes(this._squareID -  Math.sqrt(difficulty)) || (bombs.includes(this._squareID +  Math.sqrt(difficulty)))){ //1 verticale
+        this.innerHTML = '1';
+      }
+
+
+    }
 
 
 
